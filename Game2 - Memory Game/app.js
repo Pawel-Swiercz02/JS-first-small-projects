@@ -101,7 +101,9 @@ function checkMatch() {
         cards[optionTwoId].setAttribute('src', 'images/blank.jpg');
         alert('Sorry, try again!');
     }
-    resultSpan.innerHTML = cardsWon.length;
+
+    //Instead of innerHTML we can also use textContent if we wish
+    resultSpan.textContent = cardsWon.length;
     cardsChosen = [];
     cardsChosenIds = [];
 
