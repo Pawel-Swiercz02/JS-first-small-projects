@@ -9,6 +9,7 @@ let computerChoice;
 let finalResult;
 
                 //For each possibleChoice add event listener to listen up for a click (if I click any of the buttons I want something to happen)
+                // e for event
 possibleChoices.forEach(possibleChoice => possibleChoice.addEventListener('click', (e) => {
     yourChoice = e.target.id;
     yourChoiceSpan.innerHTML = yourChoice;
@@ -17,9 +18,9 @@ possibleChoices.forEach(possibleChoice => possibleChoice.addEventListener('click
 }));
 
 function generateComputerChoice() {
-    //Random number (math floor makes it a full integer) - it would generate a number form 0 to 2, so we add +1 for readability - now its 1 to 3
-    const randomNum = Math.floor(Math.random() * 3) + 1 ; //Or you can use possibleChoices.length
-
+    //Random number (math floor makes it a full integer) - it would generate a number from 0 to 2, so we add +1 for readability - now its from 1 to 3
+    const randomNum = Math.floor(Math.random() * 3) + 1 ; //Or you can use possibleChoices.length instead of 3
+    
     if (randomNum === 1) {
         computerChoice = 'rock';
     }
