@@ -7,3 +7,5 @@ Checking for wins is kind of lazy:
   - Then after every players move, I loop over each possible win combination and check if it appeared on board
 
 Will probably try to figure out a more clever way to do it and change it in the future.
+
+https://g6-connect-four.netlify.app/ (or through the landing page in the main repository)
