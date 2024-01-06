@@ -2,4 +2,4 @@ Click on the blocks and try to match two of the same cute (or not so cute) anima
 
 Once you match all the animals, good job - you won!
 
-https://g2-memory-game.netlify.app/
+https://g2-memory-game.netlify.app/ (or through the landing page in the main repository)
