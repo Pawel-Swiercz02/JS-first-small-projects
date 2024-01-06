@@ -13,4 +13,4 @@ NOTES:
 
 The start/pause button works great, but a Reset button would be a good addition, so you can replay the game after winning/losing without having to refresh the page.
 
-https://g5-frogger.netlify.app/ 
+https://g5-frogger.netlify.app/ (or through the landing page in the main repository)
