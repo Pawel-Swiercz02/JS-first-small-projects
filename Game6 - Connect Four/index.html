@@ -4,21 +4,24 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="Paweł Świercz">
-        <meta name="description" content="Paweł Świercz">
-        <title>Connect Four</title>
+        <meta name="description" content="Frogger Javascript game">
+        <title>Frogger</title>
         <link rel="stylesheet" href="styles.css">
-        <script src="app.js" charset="utf-8"></script>
     </head>
     <body>
 
-        <h3>The current player is: Player <span id="current-player">1</span></h3>
-        <h3 id="result"></h3>
+        <h3>Seconds left: <span id="time-left">20</span></h3>
+        <h3>Result: <span id="result"></span></h3>
+
+        <button id="start-pause-button">Start/Pause</button>
 
         <div class="grid">
-            <!-- 1ST ROW -->
+            <!-- 1ST ROW (finish line) -->
             <div></div>
             <div></div>
             <div></div>
+            <div></div>
+            <div class="ending-block"></div>
             <div></div>
             <div></div>
             <div></div>
@@ -32,24 +35,30 @@
             <div></div>
             <div></div>
             <div></div>
+            <div></div>
+            <div></div>
 
             <!-- 3RD ROW -->
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <div class="log-left l1"></div>
+            <div class="log-left l2"></div>
+            <div class="log-left l3"></div>
+            <div class="log-left l4"></div>
+            <div class="log-left l5"></div>
+            <div class="log-left l1"></div>
+            <div class="log-left l2"></div>
+            <div class="log-left l3"></div>
+            <div class="log-left l4"></div>
 
             <!-- 4TH ROW -->
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <div class="log-right l5"></div>
+            <div class="log-right l1"></div>
+            <div class="log-right l2"></div>
+            <div class="log-right l3"></div>
+            <div class="log-right l4"></div>
+            <div class="log-right l5"></div>
+            <div class="log-right l1"></div>
+            <div class="log-right l2"></div>
+            <div class="log-right l3"></div>
 
             <!-- 5TH ROW -->
             <div></div>
@@ -59,25 +68,55 @@
             <div></div>
             <div></div>
             <div></div>
+            <div></div>
+            <div></div>
 
             <!-- 6TH ROW -->
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <div class="car-left c1"></div>
+            <div class="car-left c2"></div>
+            <div class="car-left c3"></div>
+            <div class="car-left c1"></div>
+            <div class="car-left c2"></div>
+            <div class="car-left c3"></div>
+            <div class="car-left c1"></div>
+            <div class="car-left c2"></div>
+            <div class="car-left c3"></div>
 
             <!-- 7TH ROW -->
-            <div class="taken"></div>
-            <div class="taken"></div>
-            <div class="taken"></div>
-            <div class="taken"></div>
-            <div class="taken"></div>
-            <div class="taken"></div>
-            <div class="taken"></div>
+            <div class="car-right c1"></div>
+            <div class="car-right c2"></div>
+            <div class="car-right c3"></div>
+            <div class="car-right c1"></div>
+            <div class="car-right c2"></div>
+            <div class="car-right c3"></div>
+            <div class="car-right c1"></div>
+            <div class="car-right c2"></div>
+            <div class="car-right c3"></div>
+
+            <!-- 8TH ROW -->
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+
+            <!-- 9TH ROW (starting line)-->
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div class="starting-block frog"></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+
         </div>
 
+        <script src="app.js"></script>
     </body>
 </html>

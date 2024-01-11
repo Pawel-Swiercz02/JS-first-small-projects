@@ -1,125 +1,177 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const squares = document.querySelectorAll('.grid div');
-    const result = document.querySelector('#result');
-    const displayCurrentPlayer = document.querySelector('#current-player');
-    let currentPlayer = 1;
+const timeLeftDisplay = document.querySelector('#time-left');
+const resultDisplay = document.querySelector('#result');
+const startPauseButton = document.querySelector('#start-pause-button');
+const squares = document.querySelectorAll('.grid div');
+const logsLeft = document.querySelectorAll('.log-left');
+const logsRight = document.querySelectorAll('.log-right');
+const carsLeft = document.querySelectorAll('.car-left');
+const carsRight = document.querySelectorAll('.car-right');
 
-    //I know this is lazy, I will probably figure out a different way to check for wins and change it in the future
-    const winningArrays = [ 
-    [0, 1, 2, 3],
-    [41, 40, 39, 38],
-    [7, 8, 9, 10],
-    [34, 33, 32, 31],
-    [14, 15, 16, 17],
-    [27, 26, 25, 24],
-    [21, 22, 23, 24],
-    [20, 19, 18, 17],
-    [28, 29, 30, 31],
-    [13, 12, 11, 10],
-    [35, 36, 37, 38],
-    [6, 5, 4, 3],
-    [0, 7, 14, 21],
-    [41, 34, 27, 20],
-    [1, 8, 15, 22],
-    [40, 33, 26, 19],
-    [2, 9, 16, 23],
-    [39, 32, 25, 18],
-    [3, 10, 17, 24],
-    [38, 31, 24, 17],
-    [4, 11, 18, 25],
-    [37, 30, 23, 16],
-    [5, 12, 19, 26],
-    [36, 29, 22, 15],
-    [6, 13, 20, 27],
-    [35, 28, 21, 14],
-    [0, 8, 16, 24],
-    [41, 33, 25, 17],
-    [7, 15, 23, 31],
-    [34, 26, 18, 10],
-    [14, 22, 30, 38],
-    [27, 19, 11, 3],
-    [35, 29, 23, 17],
-    [6, 12, 18, 24],
-    [28, 22, 16, 10],
-    [13, 19, 25, 31],
-    [21, 15, 9, 3],
-    [20, 26, 32, 38],
-    [36, 30, 24, 18],
-    [5, 11, 17, 23],
-    [37, 31, 25, 19],
-    [4, 10, 16, 22],
-    [2, 10, 18, 26],
-    [39, 31, 23, 15],
-    [1, 9, 17, 25],
-    [40, 32, 24, 16],
-    [9, 17, 25, 33],
-    [8, 16, 24, 32],
-    [11, 17, 23, 29],
-    [12, 18, 24, 30],
-    [1, 2, 3, 4],
-    [5, 4, 3, 2],
-    [8, 9, 10, 11],
-    [12, 11, 10, 9],
-    [15, 16, 17, 18],
-    [19, 18, 17, 16],
-    [22, 23, 24, 25],
-    [26, 25, 24, 23],
-    [29, 30, 31, 32],
-    [33, 32, 31, 30],
-    [36, 37, 38, 39],
-    [40, 39, 38, 37],
-    [7, 14, 21, 28],
-    [8, 15, 22, 29],
-    [9, 16, 23, 30],
-    [10, 17, 24, 31],
-    [11, 18, 25, 32],
-    [12, 19, 26, 33],
-    [13, 20, 27, 34],
-    ];
+let currentIndex = 76; //Frog starting position
+const gridWidth = 9;
+let timerId;
+let outcomeTimerId;
+let currentTime = 20;
 
-    function checkBoard() {
-        for(let i = 0; i < winningArrays.length; i++) {
-            const square1 = squares[winningArrays[i][0]];
-            const square2 = squares[winningArrays[i][1]];
-            const square3 = squares[winningArrays[i][2]];
-            const square4 = squares[winningArrays[i][3]];
-
-            //Check those squares to see if they all have the class of either player-one or player-two
-            if (square1.classList.contains('player-one') &&
-                square2.classList.contains('player-one') &&
-                square3.classList.contains('player-one') &&
-                square4.classList.contains('player-one')
-                ) {
-                result.innerHTML = 'Player One Wins!';
+function moveFrog(e) {
+    squares[currentIndex].classList.remove('frog');
+    switch(e.key) {
+        case 'ArrowLeft':
+            if (currentIndex % gridWidth !== 0) { 
+            currentIndex -= 1;
             };
-            if (square1.classList.contains('player-two') &&
-                square2.classList.contains('player-two') &&
-                square3.classList.contains('player-two') &&
-                square4.classList.contains('player-two')
-                ) {
-                result.innerHTML = 'Player Two Wins!';
+            break;
+        case 'ArrowRight':
+            if (currentIndex % gridWidth < gridWidth - 1) {
+            currentIndex += 1;
             };
-        };
+            break;
+        case 'ArrowUp':
+            if (currentIndex - gridWidth >= 0) {
+            currentIndex -= gridWidth;
+            };
+            break;
+        case 'ArrowDown':
+            if (currentIndex + gridWidth < gridWidth * gridWidth) {
+            currentIndex += gridWidth;
+            };
+            break;
     };
 
-    for (let i = 0; i < squares.length; i++) {
-        squares[i].onclick = () => {
-            //If the square below your current square is taken, you can go on top of it
-            if (squares[i + 7].classList.contains('taken')) {
-                if (currentPlayer == 1) {
-                    squares[i].classList.add('taken');
-                    squares[i].classList.add('player-one');
-                    currentPlayer = 2;
-                    displayCurrentPlayer.innerHTML = currentPlayer;
-                } else if (currentPlayer == 2) {
-                    squares[i].classList.add('taken');
-                    squares[i].classList.add('player-two');
-                    currentPlayer = 1;
-                    displayCurrentPlayer.innerHTML = currentPlayer;
-                };
-            } else alert("You can't go here!");
-            checkBoard();
-        };
-    };
+    squares[currentIndex].classList.add('frog');
+};
 
+function autoMoveElements() {
+    currentTime--;
+    timeLeftDisplay.textContent = currentTime;
+    logsLeft.forEach(logLeft => moveLogLeft(logLeft));
+    logsRight.forEach(logRight => moveLogRight(logRight));
+    carsLeft.forEach(carLeft => moveCarLeft(carLeft));
+    carsRight.forEach(carRight => moveCarRight(carRight));
+};
+
+function checkOutcomes() {
+    lose();
+    win();
+};
+
+function moveLogLeft(logLeft) {
+    switch(true) {
+        case logLeft.classList.contains('l1'):
+            logLeft.classList.remove('l1');
+            logLeft.classList.add('l2');
+            break;
+        case logLeft.classList.contains('l2'):
+            logLeft.classList.remove('l2');
+            logLeft.classList.add('l3');
+            break;
+        case logLeft.classList.contains('l3'):
+            logLeft.classList.remove('l3');
+            logLeft.classList.add('l4');
+            break;
+        case logLeft.classList.contains('l4'):
+            logLeft.classList.remove('l4');
+            logLeft.classList.add('l5');
+            break;
+        case logLeft.classList.contains('l5'):
+            logLeft.classList.remove('l5');
+            logLeft.classList.add('l1');
+            break;
+    };
+};
+
+function moveLogRight(logRight) {
+    switch(true) {
+        case logRight.classList.contains('l1'):
+            logRight.classList.remove('l1');
+            logRight.classList.add('l5');
+            break;
+        case logRight.classList.contains('l2'):
+            logRight.classList.remove('l2');
+            logRight.classList.add('l1');
+            break;
+        case logRight.classList.contains('l3'):
+            logRight.classList.remove('l3');
+            logRight.classList.add('l2');
+            break;
+        case logRight.classList.contains('l4'):
+            logRight.classList.remove('l4');
+            logRight.classList.add('l3');
+            break;
+        case logRight.classList.contains('l5'):
+            logRight.classList.remove('l5');
+            logRight.classList.add('l4');
+            break;
+    };
+};
+
+function moveCarLeft(carLeft) {
+    switch(true) {
+        case carLeft.classList.contains('c1'):
+            carLeft.classList.remove('c1');
+            carLeft.classList.add('c2');
+            break;
+        case carLeft.classList.contains('c2'):
+            carLeft.classList.remove('c2');
+            carLeft.classList.add('c3');
+            break;
+        case carLeft.classList.contains('c3'):
+            carLeft.classList.remove('c3');
+            carLeft.classList.add('c1');
+            break;
+    };
+};
+
+function moveCarRight(carRight) {
+    switch(true) {
+        case carRight.classList.contains('c1'):
+            carRight.classList.remove('c1');
+            carRight.classList.add('c3');
+            break;
+        case carRight.classList.contains('c2'):
+            carRight.classList.remove('c2');
+            carRight.classList.add('c1');
+            break;
+        case carRight.classList.contains('c3'):
+            carRight.classList.remove('c3');
+            carRight.classList.add('c2');
+            break;
+    };
+};
+
+function lose() {
+    if (squares[currentIndex].classList.contains('c1') || 
+        squares[currentIndex].classList.contains('l4') ||
+        squares[currentIndex].classList.contains('l5') ||
+        currentTime <= 0
+    ) {
+        resultDisplay.textContent = 'You lose...';
+        clearInterval(timerId);
+        clearInterval(outcomeTimerId);
+        squares[currentIndex].classList.remove('frog');
+        document.removeEventListener('keyup', moveFrog);
+    };
+};
+
+function win() {
+    if (squares[currentIndex].classList.contains('ending-block')) {
+        resultDisplay.textContent = 'You win!';
+        clearInterval(timerId);
+        document.removeEventListener('keyup', moveFrog);
+    };
+};
+
+startPauseButton.addEventListener('click', () => {
+    
+    if (timerId) {
+        clearInterval(timerId);
+        clearInterval(outcomeTimerId);
+        outcomeTimerId = null;
+        timerId = null;
+        document.removeEventListener('keyup', moveFrog);
+    } else {
+        timerId = setInterval(autoMoveElements, 1000);   
+        outcomeTimerId = setInterval(checkOutcomes, 50);
+        document.addEventListener('keyup', moveFrog);
+    };
 });
